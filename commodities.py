@@ -16,7 +16,6 @@ def float_to_decimal(value):
 def pdf_to_excel_commodities(abc):
     with pdfplumber.open(abc) as pdf:
         df1 = pd.DataFrame()
-        #len(pdf.pages)
         for j in range(len(pdf.pages)):
             page = pdf.pages[j]
             text = page.extract_text()
@@ -56,13 +55,14 @@ def pdf_to_excel_commodities(abc):
                 if line2:
                     name = line2.group(6)
                     expiry = line2.group(7)
+                    num = line2.group(3)
                     buy_sell = line2.group(8)
                     quantity = line2.group(9)
                     price = line2.group(10)
                     brokerage = line2.group(11)
                     stock_original_name = line2.group(6) + " " + line2.group(7) + " " + date_bill + " " + line2.group(8)
                     price_with_brokerage = line2.group(12)
-                    line_items.append({"stock_name":name,"stock_original_name":stock_original_name,"expiry":expiry,"buy_sell":buy_sell,
+                    line_items.append({"stock_name":name,"number":num,"stock_original_name":stock_original_name,"expiry":expiry,"buy_sell":buy_sell,
                                     "quantity":int(quantity),"price":float(price),
                                     "brokerage":float(brokerage),
                                     "fprice":float(price_with_brokerage)})
@@ -79,7 +79,6 @@ def pdf_to_excel_commodities(abc):
                 df['fprice'] = "NA"
             
             df['date_of_day'] = date_bill
-            df['page_number'] = j
             df['charges'] = round(pay_net - pay_in,2)
             df['g_gst'] = gst
             df['g_sebi'] = sebi
@@ -91,6 +90,7 @@ def pdf_to_excel_commodities(abc):
             df1 = pd.concat([df1,df],axis=0)
     
     df1 = df1.reset_index(drop=True)
+    df1.drop_duplicates(inplace=True)
     df1['lotsize'] = df1["stock_name"].apply(lambda x: collection_of_items.get(x))
     df1['c_sebi'] = df1['price']*df1['quantity'].abs()*df1['lotsize']/1000000
     df1['c_stamp'] = np.where(df1['buy_sell'] == 'Buy',df1['fprice']*df1['quantity'].abs()*df1['lotsize']*0.00002,0)
@@ -114,7 +114,8 @@ def pdf_to_excel_commodities(abc):
     df4 = df3.groupby(['stock_original_name'],sort=False).agg({'try': 'sum',
          'quantity': 'sum',
          'c_charges': 'sum',
-         'g_charges': 'mean'
+         'g_charges': 'mean',
+         'lotsize':'mean'
          }).reset_index()
     
     df4['final_price'] = df4['try']/df4['quantity']
@@ -122,7 +123,8 @@ def pdf_to_excel_commodities(abc):
     df4[['Stock', 'Expiry', 'Date', 'Buy_Sell']] = df4['stock_original_name'].str.split(' ', expand=True)
 
     df4 = df4[['Buy_Sell','Date','Stock','Expiry','quantity','final_price','g_charges','c_charges']]
-
+    df4['quantity'] = df4['quantity']*df4['lotsize']
+    df4 = df4.drop(['lotsize'],axis=1)
     # writer = pd.ExcelWriter('roshan.xlsx', engine='xlsxwriter')
     # df1.to_excel(writer,sheet_name='Complete Data',index=False)
     # df4.to_excel(writer,sheet_name='Short',index=False)
