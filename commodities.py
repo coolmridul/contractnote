@@ -122,7 +122,7 @@ def pdf_to_excel_commodities(abc):
     df4 = df4.drop(['try'],axis=1)
     df4[['Stock', 'Expiry', 'Date', 'Buy_Sell']] = df4['stock_original_name'].str.split(' ', expand=True)
 
-    df4 = df4[['Buy_Sell','Date','Stock','Expiry','quantity','final_price','g_charges','c_charges']]
+    df4 = df4[['Buy_Sell','Date','Stock','Expiry','quantity','final_price','g_charges','c_charges','lotsize']]
     df4['quantity'] = df4['quantity']*df4['lotsize']
     df4 = df4.drop(['lotsize'],axis=1)
     # writer = pd.ExcelWriter('roshan.xlsx', engine='xlsxwriter')
