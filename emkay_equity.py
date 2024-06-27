@@ -16,7 +16,8 @@ list_of_columns = {
     "S. T. T.":"g_stt",
     "PayIn/Payout Obligation":"pay_in",
     "Net amount Receivable(-) / Payable(+) By Client":"pay_net",
-    "Trade Date :":"date_of_day"
+    "Trade Date :":"date_of_day",
+    "Technology & Other Handling Charges":"handling_charges"
 }
 final_columns = {}
 def float_to_decimal(value):
@@ -60,23 +61,15 @@ def pdf_to_excel_equity_mkay(abc):
                     final_columns['g_sebi1'] = 0
                 if 'g_sebi2' not in final_columns.keys():
                     final_columns['g_sebi2'] = 0 
-                print(final_columns)
+                if 'handling_charges' not in final_columns.keys():
+                    final_columns['handling_charges'] = 0
+                
                 df0 = pd.DataFrame(line_items)
                 df_9 = pd.DataFrame(final_columns, index=[0])
                 df_copied = pd.concat([df_9] * len(line_items), ignore_index=True)
                 df = pd.concat([df0,df_copied],axis=1)
-            # else:
-            #     df['stock_name'] = "NA"
-            #     df['stock_original_name'] = "NA"
-            #     df['buy_sell'] = "NA"
-            #     df['quantity'] = "NA"
-            #     df['price'] = "NA"
-            #     df['brokerage'] = "NA"
-            #     df['fprice'] = "NA"
 
-                cols_to_round = ['g_sebi1','g_sebi2','g_stt','g_trans','g_gst','g_stamp','g_ipft_fut','pay_net','pay_in']
-                print(df)
-                print(df['g_ipft_fut'])
+                cols_to_round = ['g_sebi1','g_sebi2','g_stt','g_trans','g_gst','g_stamp','g_ipft_fut','pay_net','pay_in','handling_charges']
                 df[cols_to_round] = df[cols_to_round].astype(float)
                 df['g_sebi'] = df['g_sebi1'] + df['g_sebi2']
                 df['charges'] = df['pay_net'] - df['pay_in']
@@ -100,11 +93,12 @@ def pdf_to_excel_equity_mkay(abc):
     df1['c_ipft_fut'] = (df1['price']*df1['quantity'].abs()*df1['lotsize']/1000000)*1.18
     df1['c_charges'] = df1['c_sebi'] + df1['c_stamp'] + df1['c_stt'] + df1['c_trans'] + df1['c_gst'] + df1['c_ipft_fut']
 
-    cols_to_round = ['c_sebi','c_stt','c_trans','c_gst','c_charges','c_stamp','c_ipft_fut']
+    cols_to_round = ['c_sebi','c_stt','c_trans','c_gst','c_charges','c_stamp','c_ipft_fut','handling_charges']
     df1[cols_to_round] = df1[cols_to_round].astype(float)
     df1[cols_to_round] = df1[cols_to_round].round(4)
-    df1['g_charges'] = df1['g_sebi'] + df1['g_stamp'] + df1['g_stt'] + df1['g_trans'] + df1['g_gst'] + df1['g_ipft_fut']
-
+    # df1['g_charges'] = df1['g_sebi'] + df1['g_stamp'] + df1['g_stt'] + df1['g_trans'] + df1['g_gst'] + df1['g_ipft_fut'] + df['handling_charges']
+    df1['g_charges'] = df1['charges']
+    
     df3 = df1.copy()
     df3['quantity'] = df3['quantity'].abs()
     df3['try'] = df3['quantity'] * df3['fprice']
