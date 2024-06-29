@@ -27,7 +27,7 @@ def pdf_to_excel_equity(abc):
             text = page.extract_text()
             line_items = []
             df = pd.DataFrame()
-            inv_line_re = re.compile(r'(\w+-\w+) (\w) (\d+) (\d+\.\d+) (\d+\.\d+) (\d+\.\d+) (\d+\.\d+) (\d+\.\d+) (-?\d+\.\d+$)')
+            inv_line_re = re.compile(r'(\w+-\w+) (\w) (\d+) (\d+\.\d+) (\d+\.\d+) (\d+\.\d+) (\d+\.\d+) (\d+\.\d+) (-?\d+(\.\d+)?$)')
             for line in text.split('\n'):
                 if "Total GST on Transaction Charges For the Day" in line:
                     gst = float(line.split('Total GST on Transaction Charges For the Day: ',1)[1])
