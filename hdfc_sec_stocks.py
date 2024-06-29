@@ -101,8 +101,8 @@ def pdf_to_excel_equity(abc):
     df4 = df4[['Date','Security_Name','Security ISIN','buy_sell','quantity','Value','c_charges','c_stt']]
     
     df9 = pd.read_excel('stock_isin.xlsx')
-    df_merged = pd.merge(df4, df9, how="left", left_on='Security ISIN',right_on='ISIN')
-    df_merged = df_merged.drop(['ISIN Description','Security Type','ISIN'],axis=1)
+    df_merged = pd.merge(df4, df9, how="left", left_on='Security ISIN',right_on='ISIN No')
+    # df_merged = df_merged.drop(['ISIN Description','Security Type','ISIN'],axis=1)
     df_merged = df_merged[['Date','Security_Name','Security Name','Security ISIN','buy_sell','quantity','Value','c_charges','c_stt']]
 
 
