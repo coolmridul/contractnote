@@ -31,7 +31,7 @@ def pdf_to_excel_equity_mkay(abc):
             text = page.extract_text()
             line_items = []
             df = pd.DataFrame()
-            inv_line_re = re.compile(r'^(\d+)\s+(\d{2}:\d{2}:\d{2})\s+(\d+)\s+(\d{2}:\d{2}:\d{2})\s+([A-Z\s\.]+?)\s+(Buy|Sell)\s+(-?\d+)\s+(\d+\.\d{5,6})\s+(\d+\.\d{5,6})\s+(\d+\.\d{5,6})\s+(-?\d+\.\d{2})\s+([A-Z])$')
+            inv_line_re = re.compile(r'^(\d+)\s+(\d{2}:\d{2}:\d{2})\s+(\d+)\s+(\d{2}:\d{2}:\d{2})\s+([A-Z][A-Za-z\s\.]+?)\s+(Buy|Sell)\s+(-?\d+)\s+(\d+\.\d+)\s+(\d+\.\d+)\s+(\d+\.\d+)\s+(-?\d+\.\d{2})\s+([A-Z])$')
 
             for line in text.split('\n'):
                 linesplit = line.split(' ')
