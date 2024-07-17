@@ -7,7 +7,8 @@ from decimal import Decimal, ROUND_HALF_UP, ROUND_FLOOR, ROUND_CEILING
 
 collection_of_items = {
     'SILVERM':5,
-    'ALUMINI': 1000
+    'ALUMINI': 1000,
+    'COPPER': 2500
 }
 
 def float_to_decimal(value):
