@@ -1,5 +1,5 @@
 altair
 pandas
-streamlit
+streamlit==1.36.0
 pdfplumber
 openpyxl
