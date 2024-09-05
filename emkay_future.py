@@ -9,7 +9,7 @@ def float_to_decimal(value):
     return Decimal(value).quantize(Decimal('0.1'), rounding=ROUND_CEILING)
 
 def pdf_to_excel_index_futures(abc):
-    with pdfplumber.open(abc) as pdf:
+    with pdfplumber.open(abc,password='AAFCN1116J') as pdf:
         df1 = pd.DataFrame()
         #len(pdf.pages)
         for j in range(len(pdf.pages)):

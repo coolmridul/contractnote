@@ -24,7 +24,7 @@ def float_to_decimal(value):
     return Decimal(value).quantize(Decimal('0.1'), rounding=ROUND_CEILING)
 
 def pdf_to_excel_equity_mkay(abc):
-    with pdfplumber.open(abc) as pdf:
+    with pdfplumber.open(abc,password='AAFCN1116J') as pdf:
         df1,df0 = pd.DataFrame(),pd.DataFrame()
         for j in range(len(pdf.pages)):
             page = pdf.pages[j]

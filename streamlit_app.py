@@ -6,6 +6,7 @@ from hdfc_sec_stocks import *
 from commodities import *
 from emkay_future import *
 from emkay_equity import *
+from nakamichi_fut import *
 
 @st.cache_data
 def convert_df(df):
@@ -14,7 +15,7 @@ def convert_df(df):
 
 option = st.selectbox(
    "Select",
-   ("Equity (HDFC)", "Commodities (Emkay)","Future (Emkay)","Equity (Emkay)")
+   ("Equity (HDFC)", "Commodities (Emkay)","Future (Emkay)","Equity (Emkay)","Nakamichi (Future)")
 )
 if option == 'Equity (HDFC)':
     uploaded_files = st.file_uploader("Choose a PDF file", accept_multiple_files=False)
@@ -56,6 +57,18 @@ if option == "Equity (Emkay)":
     uploaded_files3 = st.file_uploader("Choose a PDF file", accept_multiple_files=False)
     if uploaded_files3 is not None:
         df_new = pdf_to_excel_equity_mkay(uploaded_files3)
+        df_new = df_new.fillna("")
+        st.dataframe(df_new)
+        csv_data = convert_df(df_new)
+        btn = st.download_button(
+        label="Download",
+        data=csv_data,
+        file_name="Equity Summary.csv",
+        mime="text/csv",)
+if option == "Nakamichi (Future)":
+    uploaded_files5 = st.file_uploader("Choose a PDF file", accept_multiple_files=False)
+    if uploaded_files5 is not None:
+        df_new = pdf_to_excel_index_futures_nakamichi(uploaded_files5)
         df_new = df_new.fillna("")
         st.dataframe(df_new)
         csv_data = convert_df(df_new)
