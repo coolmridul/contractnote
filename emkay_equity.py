@@ -64,6 +64,8 @@ def pdf_to_excel_equity_mkay(abc):
                     final_columns['g_sebi2'] = 0 
                 if 'handling_charges' not in final_columns.keys():
                     final_columns['handling_charges'] = 0
+                if 'g_stamp' not in final_columns.keys():
+                    final_columns['g_stamp'] = 0
                 
                 df0 = pd.DataFrame(line_items)
                 df_9 = pd.DataFrame(final_columns, index=[0])
