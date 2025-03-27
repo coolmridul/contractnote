@@ -58,14 +58,20 @@ def pdf_to_excel_equity_mkay(abc):
             
             
             if len(line_items):
-                if 'g_sebi1' not in final_columns.keys():
-                    final_columns['g_sebi1'] = 0
-                if 'g_sebi2' not in final_columns.keys():
-                    final_columns['g_sebi2'] = 0 
-                if 'handling_charges' not in final_columns.keys():
-                    final_columns['handling_charges'] = 0
-                if 'g_stamp' not in final_columns.keys():
-                    final_columns['g_stamp'] = 0
+                colnames_list = ['g_sebi1','g_sebi2','handling_charges','g_stamp','g_stt','g_trans','pay_in','pay_net','g_ipft_fut','g_gst']
+                for nm in colnames_list:
+                    if nm not in final_columns.keys():
+                        final_columns[nm] = 0
+                # if 'g_sebi2' not in final_columns.keys():
+                #     final_columns['g_sebi2'] = 0 
+                # if 'handling_charges' not in final_columns.keys():
+                #     final_columns['handling_charges'] = 0
+                # if 'g_stamp' not in final_columns.keys():
+                #     final_columns['g_stamp'] = 0
+                # if 'g_stt' not in final_columns.keys():
+                #     final_columns['g_stt'] = 0
+                # if 'g_trans' not in final_columns.keys():
+                #     final_columns['g_trans'] = 0
                 
                 df0 = pd.DataFrame(line_items)
                 df_9 = pd.DataFrame(final_columns, index=[0])
