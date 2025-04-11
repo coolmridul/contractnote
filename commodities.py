@@ -11,7 +11,7 @@ collection_of_items = {
     'SILVERM':5,
     'ALUMINI': 1000,
     'COPPER': 2500,
-    'GOLDM': 5,
+    'GOLDM': 10,
     'SILVE':5
 }
 

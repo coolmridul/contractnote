@@ -16,8 +16,8 @@ list_of_columns = {
     "Txn":"g_trans",
     "IPFTChrg":"g_ipft_fut",
     "STT ":"g_stt",
-    "Obligation\(Payin/Out\) ":"pay_in",
-    "Net Amount For NSE - FO ":"pay_net"
+    r"Obligation\(Payin/Out\) ": "pay_in",
+    "Net Amount For NSE - FO ": "pay_net"
 }
 
 def float_to_decimal(value):
